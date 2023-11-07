@@ -1,54 +1,30 @@
 package edu.byu.cs.tweeter.client.model.service;
 
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.BackgroundTaskUtils;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LoginTaskHandler;
-import edu.byu.cs.tweeter.model.domain.AuthToken;
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LoginHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.RegisterHandler;
+import edu.byu.cs.tweeter.client.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.client.presenter.RegisterPresenter;
 
 /**
  * Contains the business logic to support the login operation.
  */
-public class UserService {
+public class UserService extends GeneralService {
 
-    public static final String URL_PATH = "/login";
+    public static final String LOGIN_URL_PATH = "/login";
 
-    /**
-     * An observer interface to be implemented by observers who want to be notified when
-     * asynchronous operations complete.
-     */
-    public interface LoginObserver {
-        void handleSuccess(User user, AuthToken authToken);
-        void handleFailure(String message);
-        void handleException(Exception exception);
+    public void login(String alias, String password, LoginPresenter.LoginObserver observer) {
+        // Send the login request.
+        LoginTask loginTask = new LoginTask(alias, password, new LoginHandler(observer));
+        execute(loginTask);
     }
 
-    /**
-     * Creates an instance.
-     *
-     */
-     public UserService() {
-     }
-
-    /**
-     * Makes an asynchronous login request.
-     *
-     * @param username the user's name.
-     * @param password the user's password.
-     */
-    public void login(String username, String password, LoginObserver observer) {
-        LoginTask loginTask = getLoginTask(username, password, observer);
-        BackgroundTaskUtils.runTask(loginTask);
-    }
-
-    /**
-     * Returns an instance of {@link LoginTask}. Allows mocking of the LoginTask class for
-     * testing purposes. All usages of LoginTask should get their instance from this method to
-     * allow for proper mocking.
-     *
-     * @return the instance.
-     */
-    LoginTask getLoginTask(String username, String password, LoginObserver observer) {
-        return new LoginTask(this, username, password, new LoginTaskHandler(observer));
+    public void register(String firstName, String lastName, String alias,
+                         String password, String imageBytesBase64, RegisterPresenter.RegisterObserver observer) {
+        // Send register request.
+        RegisterTask registerTask = new RegisterTask(firstName, lastName, alias, password,
+                imageBytesBase64, new RegisterHandler(observer));
+        execute(registerTask);
     }
 }

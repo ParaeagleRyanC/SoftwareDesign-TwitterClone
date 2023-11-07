@@ -5,9 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import java.io.IOException;
+
 public abstract class BackgroundTask implements Runnable {
 
-    private static final String LOG_TAG = "Task";
+    public static final String LOG_TAG = "BackgroundTask";
 
     public static final String SUCCESS_KEY = "success";
     public static final String MESSAGE_KEY = "message";
@@ -61,9 +63,8 @@ public abstract class BackgroundTask implements Runnable {
     private void sendMessage(Bundle msgBundle) {
         Message msg = Message.obtain();
         msg.setData(msgBundle);
-
         messageHandler.sendMessage(msg);
     }
 
-    protected abstract void runTask();
+    protected abstract void runTask() throws IOException;
 }
