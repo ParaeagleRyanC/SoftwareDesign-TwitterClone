@@ -62,6 +62,31 @@ public class FollowDAO {
         return new Pair<>(responseFollowees, hasMorePages);
     }
 
+    public Pair<List<User>, Boolean> getFollowers(String followerAlias, int limit, String lastFolloweeAlias) {
+        // TODO: Generates dummy data. Replace with a real implementation.
+        assert limit > 0;
+        assert followerAlias != null;
+
+        List<User> allFollowers = getDummyFollowees();
+        List<User> responseFollowers = new ArrayList<>(limit);
+
+        boolean hasMorePages = false;
+
+        if(limit > 0) {
+            if (allFollowers != null) {
+                int followeesIndex = getFolloweesStartingIndex(lastFolloweeAlias, allFollowers);
+
+                for(int limitCounter = 0; followeesIndex < allFollowers.size() && limitCounter < limit; followeesIndex++, limitCounter++) {
+                    responseFollowers.add(allFollowers.get(followeesIndex));
+                }
+
+                hasMorePages = followeesIndex < allFollowers.size();
+            }
+        }
+
+        return new Pair<>(responseFollowers, hasMorePages);
+    }
+
     /**
      * Determines the index for the first followee in the specified 'allFollowees' list that should
      * be returned in the current request. This will be the index of the next followee after the
@@ -99,6 +124,16 @@ public class FollowDAO {
      * @return the followees.
      */
     List<User> getDummyFollowees() {
+        return getFakeData().getFakeUsers();
+    }
+
+    /**
+     * Returns the list of dummy follower data. This is written as a separate method to allow
+     * mocking of the followers.
+     *
+     * @return the followers.
+     */
+    List<User> getDummyFollowers() {
         return getFakeData().getFakeUsers();
     }
 

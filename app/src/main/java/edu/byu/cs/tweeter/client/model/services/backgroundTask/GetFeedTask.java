@@ -1,18 +1,29 @@
 package edu.byu.cs.tweeter.client.model.services.backgroundTask;
 
 import android.os.Handler;
+import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 
+import edu.byu.cs.tweeter.client.model.services.FollowService;
+import edu.byu.cs.tweeter.client.model.services.StatusService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
+import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
+import edu.byu.cs.tweeter.model.net.request.StatusesRequest;
+import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
+import edu.byu.cs.tweeter.model.net.response.StatusesResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 /**
  * Background task that retrieves a page of statuses from a user's feed.
  */
 public class GetFeedTask extends PagedStatusTask {
+    private static final String LOG_TAG = "GetFeedTask";
+
 
     public GetFeedTask(AuthToken authToken, User targetUser, int limit, Status lastStatus,
                        Handler messageHandler) {
@@ -21,6 +32,24 @@ public class GetFeedTask extends PagedStatusTask {
 
     @Override
     protected Pair<List<Status>, Boolean> getItems() {
-        return getFakeData().getPageOfStatus(getLastItem(), getLimit());
+        List<Status> statuses = null;
+        boolean morePages = false;
+        try {
+            String targetUserAlias = targetUser == null ? null : targetUser.getAlias();
+
+            StatusesRequest request = new StatusesRequest(targetUserAlias, limit, lastItem);
+            StatusesResponse response = getServerFacade().getStatuses(request, StatusService.GET_FEED_URL_PATH);
+
+            if (response.isSuccess()) {
+                statuses = response.getStatuses();
+                morePages = response.getHasMorePages();
+            } else {
+                sendFailedMessage(response.getMessage());
+            }
+        } catch (IOException | TweeterRemoteException ex) {
+            Log.e(LOG_TAG, "Failed to get statues", ex);
+            sendExceptionMessage(ex);
+        }
+        return new Pair<>(statuses, morePages);
     }
 }

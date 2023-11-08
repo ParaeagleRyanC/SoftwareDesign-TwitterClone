@@ -24,14 +24,25 @@ public class FollowService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public FollowsResponse getFollows(FollowsRequest request) {
+    public FollowsResponse getFollowees(FollowsRequest request) {
         if(request.getTargetAlias() == null) {
-            throw new RuntimeException("[Bad Request] Request needs to have a follower/followee alias");
+            throw new RuntimeException("[Bad Request] Request needs to have a followee alias");
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
         }
 
         Pair<List<User>, Boolean> pair = getFollowingDAO().getFollowees(request.getTargetAlias(), request.getLimit(), request.getLastPersonAlias());
+        return new FollowsResponse(pair.getFirst(), pair.getSecond());
+    }
+
+    public FollowsResponse getFollowers(FollowsRequest request) {
+        if(request.getTargetAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a follower alias");
+        } else if(request.getLimit() <= 0) {
+            throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
+        }
+
+        Pair<List<User>, Boolean> pair = getFollowingDAO().getFollowers(request.getTargetAlias(), request.getLimit(), request.getLastPersonAlias());
         return new FollowsResponse(pair.getFirst(), pair.getSecond());
     }
 

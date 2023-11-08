@@ -13,6 +13,9 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class StatusService extends GeneralService {
 
+    public static final String GET_FEED_URL_PATH = "/getfeed";
+    public static final String GET_STORIES_URL_PATH = "/getstories";
+
     public void getFeed(AuthToken authToken, User user, int pageSize, Status lastStatus, PagedPresenter.GetPageItemObserver observer) {
 
         GetFeedTask getFeedTask = new GetFeedTask(authToken,
