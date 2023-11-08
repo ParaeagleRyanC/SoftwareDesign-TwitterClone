@@ -3,14 +3,16 @@ package edu.byu.cs.tweeter.server.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import edu.byu.cs.tweeter.model.net.request.FollowUnfollowRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
+import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.service.FollowService;
 
 /**
- * An AWS lambda function that returns the users' followers.
+ * An AWS lambda function that follows or unfollows a user.
  */
-public class GetFollowerHandler implements RequestHandler<FollowsRequest, FollowsResponse> {
+public class FollowUnfollowHandler implements RequestHandler<FollowUnfollowRequest, Response> {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -22,8 +24,8 @@ public class GetFollowerHandler implements RequestHandler<FollowsRequest, Follow
      * @return the followers.
      */
     @Override
-    public FollowsResponse handleRequest(FollowsRequest request, Context context) {
+    public Response handleRequest(FollowUnfollowRequest request, Context context) {
         FollowService service = new FollowService();
-        return service.getFollowees(request);
+        return service.followUnfollow(request);
     }
 }

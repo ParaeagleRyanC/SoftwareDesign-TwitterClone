@@ -48,12 +48,12 @@ public class FollowServiceTest {
     }
 
     /**
-     * Verify that the {@link FollowService#getFollowees(FollowsRequest)}
+     * Verify that the {@link FollowService#getFollows(FollowsRequest)}
      * method returns the same result as the {@link FollowDAO} class.
      */
     @Test
     public void testGetFollowees_validRequest_correctResponse() {
-        FollowsResponse response = followServiceSpy.getFollowees(request);
+        FollowsResponse response = followServiceSpy.getFollows(request);
         Assertions.assertEquals(expectedResponse, response);
     }
 }

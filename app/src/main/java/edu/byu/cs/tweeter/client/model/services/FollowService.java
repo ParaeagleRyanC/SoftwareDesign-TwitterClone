@@ -25,6 +25,8 @@ public class FollowService extends GeneralService {
 
     public static final String GET_FOLLOWING_URL_PATH = "/getfollowing";
     public static final String GET_FOLLOWER_URL_PATH = "/getfollower";
+    public static final String FOLLOW_URL_PATH = "/follow";
+    public static final String UNFOLLOW_URL_PATH = "/unfollow";
 
     public void getFollowing(AuthToken authToken, User user, int pageSize,
                              User lastFollowee, PagedPresenter.GetPageItemObserver observer) {

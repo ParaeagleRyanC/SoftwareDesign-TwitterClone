@@ -8,22 +8,22 @@ import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
 import edu.byu.cs.tweeter.server.service.FollowService;
 
 /**
- * An AWS lambda function that returns the users a user is following.
+ * An AWS lambda function that returns the users' followers.
  */
-public class GetFollowingHandler implements RequestHandler<FollowsRequest, FollowsResponse> {
+public class GetFollowHandler implements RequestHandler<FollowsRequest, FollowsResponse> {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
-     * the request object to limit the number of followees returned and to return the next set of
-     * followees after any that were returned in a previous request.
+     * the request object to limit the number of followers returned and to return the next set of
+     * followers after any that were returned in a previous request.
      *
      * @param request contains the data required to fulfill the request.
      * @param context the lambda context.
-     * @return the followees.
+     * @return the followers.
      */
     @Override
     public FollowsResponse handleRequest(FollowsRequest request, Context context) {
         FollowService service = new FollowService();
-        return service.getFollowees(request);
+        return service.getFollows(request);
     }
 }
