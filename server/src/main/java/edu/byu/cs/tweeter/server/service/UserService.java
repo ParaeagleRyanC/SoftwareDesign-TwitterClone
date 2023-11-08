@@ -3,9 +3,11 @@ package edu.byu.cs.tweeter.server.service;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.LoginRequest;
+import edu.byu.cs.tweeter.model.net.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.net.response.LoginResponse;
 import edu.byu.cs.tweeter.model.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public class UserService {
@@ -21,6 +23,12 @@ public class UserService {
         User user = getDummyUser();
         AuthToken authToken = getDummyAuthToken();
         return new LoginResponse(user, authToken);
+    }
+
+    public Response logout(LogoutRequest request) {
+
+        // TODO: Generates dummy data. Replace with a real implementation.
+        return new Response(true);
     }
 
     public RegisterResponse register(RegisterRequest request) {
