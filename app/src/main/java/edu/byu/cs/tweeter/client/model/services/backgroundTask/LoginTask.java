@@ -16,6 +16,8 @@ import edu.byu.cs.tweeter.model.net.response.LoginResponse;
  */
 public class LoginTask extends AuthenticateTask {
 
+    private static final String LOG_TAG = "LoginTask";
+
     public LoginTask(String username, String password, Handler messageHandler) {
         super(messageHandler, username, password);
     }
@@ -35,7 +37,7 @@ public class LoginTask extends AuthenticateTask {
                 sendFailedMessage(response.getMessage());
             }
         } catch (Exception ex) {
-            //Log.e(LOG_TAG, ex.getMessage(), ex);
+            Log.e(LOG_TAG, ex.getMessage(), ex);
             sendExceptionMessage(ex);
         }
         return new Pair<>(loggedInUser, authToken);

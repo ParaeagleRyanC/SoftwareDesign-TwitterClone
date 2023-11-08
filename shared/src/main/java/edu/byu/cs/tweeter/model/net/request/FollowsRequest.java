@@ -6,17 +6,17 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
  * Contains all the information needed to make a request to have the server return the next page of
  * followees for a specified follower.
  */
-public class FollowingRequest {
+public class FollowsRequest {
 
     private AuthToken authToken;
-    private String followerAlias;
+    private String targetAlias;
     private int limit;
-    private String lastFolloweeAlias;
+    private String lastPersonAlias;
 
     /**
      * Allows construction of the object from Json. Private so it won't be called in normal code.
      */
-    private FollowingRequest() {}
+    private FollowsRequest() {}
 
     /**
      * Creates an instance.
@@ -27,11 +27,11 @@ public class FollowingRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public FollowingRequest(AuthToken authToken, String followerAlias, int limit, String lastFolloweeAlias) {
+    public FollowsRequest(AuthToken authToken, String followerAlias, int limit, String lastFolloweeAlias) {
         this.authToken = authToken;
-        this.followerAlias = followerAlias;
+        this.targetAlias = followerAlias;
         this.limit = limit;
-        this.lastFolloweeAlias = lastFolloweeAlias;
+        this.lastPersonAlias = lastFolloweeAlias;
     }
 
     /**
@@ -57,17 +57,17 @@ public class FollowingRequest {
      *
      * @return the follower.
      */
-    public String getFollowerAlias() {
-        return followerAlias;
+    public String getTargetAlias() {
+        return targetAlias;
     }
 
     /**
      * Sets the follower.
      *
-     * @param followerAlias the follower.
+     * @param targetAlias the follower.
      */
-    public void setFollowerAlias(String followerAlias) {
-        this.followerAlias = followerAlias;
+    public void setTargetAlias(String targetAlias) {
+        this.targetAlias = targetAlias;
     }
 
     /**
@@ -94,16 +94,16 @@ public class FollowingRequest {
      *
      * @return the last followee.
      */
-    public String getLastFolloweeAlias() {
-        return lastFolloweeAlias;
+    public String getLastPersonAlias() {
+        return lastPersonAlias;
     }
 
     /**
      * Sets the last followee.
      *
-     * @param lastFolloweeAlias the last followee.
+     * @param lastPersonAlias the last followee.
      */
-    public void setLastFolloweeAlias(String lastFolloweeAlias) {
-        this.lastFolloweeAlias = lastFolloweeAlias;
+    public void setLastPersonAlias(String lastPersonAlias) {
+        this.lastPersonAlias = lastPersonAlias;
     }
 }

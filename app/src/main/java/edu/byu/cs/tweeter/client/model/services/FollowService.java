@@ -23,6 +23,9 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService extends GeneralService {
 
+    public static final String GET_FOLLOWING_URL_PATH = "/getfollowing";
+    public static final String GET_FOLLOWER_URL_PATH = "/getfollower";
+
     public void getFollowing(AuthToken authToken, User user, int pageSize,
                              User lastFollowee, PagedPresenter.GetPageItemObserver observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(authToken, user, pageSize,

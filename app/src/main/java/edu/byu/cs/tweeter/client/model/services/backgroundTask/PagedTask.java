@@ -20,19 +20,19 @@ public abstract class PagedTask<T> extends AuthenticatedTask {
      * The user whose items are being retrieved.
      * (This can be any user, not just the currently logged-in user.)
      */
-    private final User targetUser;
+    protected final User targetUser;
 
     /**
      * Maximum number of statuses to return (i.e., page size).
      */
 
-    private final int limit;
+    protected final int limit;
 
     /**
      * The last status returned in the previous page of results (can be null).
      * This allows the new page to begin where the previous page ended.
      */
-    private final T lastItem;
+    protected final T lastItem;
 
     /**
      * The items returned in the current page of results.
