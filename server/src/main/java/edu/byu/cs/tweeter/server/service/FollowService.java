@@ -5,7 +5,9 @@ import java.util.List;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FollowUnfollowRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
+import edu.byu.cs.tweeter.model.net.request.GetFollowsCountRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
+import edu.byu.cs.tweeter.model.net.response.GetFollowsCountResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
 import edu.byu.cs.tweeter.util.Pair;
@@ -46,12 +48,36 @@ public class FollowService {
         return new FollowsResponse(pair.getFirst(), pair.getSecond());
     }
 
-    public Response followUnfollow(FollowUnfollowRequest request) {
+    public Response follow(FollowUnfollowRequest request) {
         if (request.getTargetAlias() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a user alias");
         }
         // TODO: Replace with a real implementation.
         return new Response(true);
+    }
+
+    public Response unfollow(FollowUnfollowRequest request) {
+        if (request.getTargetAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a user alias");
+        }
+        // TODO: Replace with a real implementation.
+        return new Response(true);
+    }
+
+    public GetFollowsCountResponse getFollowingCount(GetFollowsCountRequest request) {
+        if (request.getTargetAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a user alias");
+        }
+        // TODO: Replace with a real implementation.
+        return new GetFollowsCountResponse(true, 50);
+    }
+
+    public GetFollowsCountResponse getFollowerCount(GetFollowsCountRequest request) {
+        if (request.getTargetAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a user alias");
+        }
+        // TODO: Replace with a real implementation.
+        return new GetFollowsCountResponse(true, 30);
     }
 
     /**

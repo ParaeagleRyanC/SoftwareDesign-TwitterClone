@@ -21,6 +21,6 @@ public class GetFollowersHandler implements RequestHandler<FollowsRequest, Follo
         @Override
         public FollowsResponse handleRequest(FollowsRequest request, Context context) {
             FollowService service = new FollowService();
-            return service.getFollowees(request);
+            return service.getFollowers(request);
         }
 }
