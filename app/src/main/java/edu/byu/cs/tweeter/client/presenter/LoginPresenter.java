@@ -95,8 +95,8 @@
 
 package edu.byu.cs.tweeter.client.presenter;
 
-import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.LoginRegisterObserver;
+import edu.byu.cs.tweeter.client.model.services.UserService;
+import edu.byu.cs.tweeter.client.model.services.observer.LoginRegisterObserver;
 import edu.byu.cs.tweeter.client.view.LoginRegisterView;
 
 public class LoginPresenter extends LoginRegisterPresenter {
