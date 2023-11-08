@@ -20,6 +20,7 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 public class UserService extends GeneralService {
 
     public static final String LOGIN_URL_PATH = "/login";
+    public static final String REGISTER_URL_PATH = "/register";
 
     public void login(String alias, String password, LoginPresenter.LoginObserver observer) {
         // Send the login request.
