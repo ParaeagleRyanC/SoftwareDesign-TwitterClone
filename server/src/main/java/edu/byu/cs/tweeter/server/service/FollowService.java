@@ -1,13 +1,16 @@
 package edu.byu.cs.tweeter.server.service;
 
 import java.util.List;
+import java.util.Random;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FollowUnfollowRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
 import edu.byu.cs.tweeter.model.net.request.GetFollowsCountRequest;
+import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
 import edu.byu.cs.tweeter.model.net.response.GetFollowsCountResponse;
+import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
 import edu.byu.cs.tweeter.util.Pair;
@@ -78,6 +81,16 @@ public class FollowService {
         }
         // TODO: Replace with a real implementation.
         return new GetFollowsCountResponse(true, 30);
+    }
+
+    public IsFollowerResponse isFollower(IsFollowerRequest request) {
+        if (request.getFollowerAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a follower alias");
+        } else if (request.getFolloweeAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a followee alias");
+        }
+        // TODO: Replace with a real implementation.
+        return new IsFollowerResponse(true, new Random().nextInt() > 0);
     }
 
     /**

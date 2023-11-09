@@ -2,16 +2,23 @@ package edu.byu.cs.tweeter.client.model.services.backgroundTask;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.Random;
 
+import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.request.FollowUnfollowRequest;
+import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
+import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
+import edu.byu.cs.tweeter.model.net.response.Response;
 
 /**
  * Background task that determines if one user is following another.
  */
 public class IsFollowerTask extends AuthenticatedTask {
+    private static final String LOG_TAG = "IsFollowerTask";
 
     public static final String IS_FOLLOWER_KEY = "is-follower";
 
@@ -35,12 +42,20 @@ public class IsFollowerTask extends AuthenticatedTask {
 
     @Override
     protected void runTask() {
-        isFollower = new Random().nextInt() > 0;
+        try {
+            IsFollowerRequest request = new IsFollowerRequest(follower.getAlias(), followee.getAlias());
+            IsFollowerResponse response = getServerFacade().getIsFollower(request, FollowService.GET_IS_FOLLOWER_URL_PATH);
 
-        // Call sendSuccessMessage if successful
-        sendSuccessMessage();
-        // or call sendFailedMessage if not successful
-        // sendFailedMessage()
+            if (response.isSuccess()) {
+                isFollower = response.isFollow();
+                sendSuccessMessage();
+            } else {
+                sendFailedMessage(response.getMessage());
+            }
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex);
+            sendExceptionMessage(ex);
+        }
     }
 
     @Override
