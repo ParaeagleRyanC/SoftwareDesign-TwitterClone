@@ -4,15 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import java.util.Random;
-
 import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.net.request.FollowUnfollowRequest;
 import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
 import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
-import edu.byu.cs.tweeter.model.net.response.Response;
 
 /**
  * Background task that determines if one user is following another.

@@ -9,11 +9,8 @@ import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
-import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
 import edu.byu.cs.tweeter.model.net.request.GetFollowsCountRequest;
-import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
 import edu.byu.cs.tweeter.model.net.response.GetFollowsCountResponse;
-import edu.byu.cs.tweeter.util.Pair;
 
 /**
  * Background task that queries how many followers a user has.

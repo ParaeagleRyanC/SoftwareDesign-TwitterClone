@@ -15,6 +15,7 @@ public class StatusService extends GeneralService {
 
     public static final String GET_FEED_URL_PATH = "/getfeed";
     public static final String GET_STORIES_URL_PATH = "/getstories";
+    public static final String POST_STATUS_URL_PATH = "/poststatus";
 
     public void getFeed(AuthToken authToken, User user, int pageSize, Status lastStatus, PagedPresenter.GetPageItemObserver observer) {
 
