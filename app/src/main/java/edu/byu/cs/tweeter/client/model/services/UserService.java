@@ -22,6 +22,7 @@ public class UserService extends GeneralService {
     public static final String LOGIN_URL_PATH = "/login";
     public static final String REGISTER_URL_PATH = "/register";
     public static final String LOGOUT_URL_PATH = "/logout";
+    public static final String GET_USER_URL_PATH = "/getuser";
 
     public void login(String alias, String password, LoginPresenter.LoginObserver observer) {
         // Send the login request.
