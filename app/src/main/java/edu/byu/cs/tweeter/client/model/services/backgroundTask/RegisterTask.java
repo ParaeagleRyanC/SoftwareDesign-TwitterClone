@@ -7,7 +7,7 @@ import edu.byu.cs.tweeter.client.model.services.UserService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.model.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 /**
@@ -46,7 +46,7 @@ public class RegisterTask extends AuthenticateTask {
         AuthToken authToken = null;
         try {
             RegisterRequest request = new RegisterRequest(username, password, firstName, lastName, image);
-            RegisterResponse response = getServerFacade().register(request, UserService.REGISTER_URL_PATH);
+            AuthenticatedResponse response = getServerFacade().register(request, UserService.REGISTER_URL_PATH);
 
             if (response.isSuccess()) {
                 loggedInUser  = response.getUser();

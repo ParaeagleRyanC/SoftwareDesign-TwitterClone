@@ -20,7 +20,7 @@
 //    private AuthToken currentAuthToken;
 //
 //    private FollowService followServiceSpy;
-//    private FollowServiceObserver observer;
+//    //private FollowServiceObserver observer;
 //
 //    private CountDownLatch countDownLatch;
 //

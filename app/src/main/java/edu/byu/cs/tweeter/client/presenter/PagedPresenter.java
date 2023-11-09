@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.client.presenter;
 import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.services.UserService;
+import edu.byu.cs.tweeter.client.model.services.observer.PageItemObserver;
 import edu.byu.cs.tweeter.client.model.services.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.view.PageView;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -10,7 +11,8 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class PagedPresenter<T> extends BasePresenter<PageView> {
 
-    public class GetPageItemObserver implements ServiceObserver {
+    public class GetPageItemObserver implements PageItemObserver<T> {
+        @Override
         public void getItemsSucceeded(List<T> items, boolean hasMorePages) {
             isLoading = false;
             lastItem = (items.size() > 0 ? items.get(items.size() - 1) : null);

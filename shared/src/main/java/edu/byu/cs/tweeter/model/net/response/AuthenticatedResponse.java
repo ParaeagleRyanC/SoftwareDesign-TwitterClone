@@ -2,8 +2,12 @@ package edu.byu.cs.tweeter.model.net.response;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.request.LoginRequest;
 
-public class RegisterResponse extends Response {
+/**
+ * A response for a {@link LoginRequest}.
+ */
+public class AuthenticatedResponse extends Response {
 
     private User user;
     private AuthToken authToken;
@@ -13,7 +17,7 @@ public class RegisterResponse extends Response {
      *
      * @param message a message describing why the request was unsuccessful.
      */
-    public RegisterResponse(String message) {
+    public AuthenticatedResponse(String message) {
         super(false, message);
     }
 
@@ -23,7 +27,7 @@ public class RegisterResponse extends Response {
      * @param user the now logged in user.
      * @param authToken the auth token representing this user's session with the server.
      */
-    public RegisterResponse(User user, AuthToken authToken) {
+    public AuthenticatedResponse(User user, AuthToken authToken) {
         super(true, null);
         this.user = user;
         this.authToken = authToken;

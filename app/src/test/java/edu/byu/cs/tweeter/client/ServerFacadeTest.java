@@ -12,17 +12,14 @@ import java.util.List;
 import edu.byu.cs.tweeter.client.model.net.ServerFacade;
 import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.client.model.services.UserService;
-import edu.byu.cs.tweeter.model.domain.AuthToken;
-import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
 import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
 import edu.byu.cs.tweeter.model.net.request.GetFollowsCountRequest;
 import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
+import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
 import edu.byu.cs.tweeter.model.net.response.GetFollowsCountResponse;
-import edu.byu.cs.tweeter.model.net.response.RegisterResponse;
 import edu.byu.cs.tweeter.util.FakeData;
-import edu.byu.cs.tweeter.util.Pair;
 
 public class ServerFacadeTest {
     private final String LOG_TAG = "ServerFacadeTest";
@@ -42,7 +39,7 @@ public class ServerFacadeTest {
                 "aUsername", "aPassword",
                 "aFirstName", "aLastName", "anImage");
         try {
-            RegisterResponse registerResponse = serverFacade.register(registerRequest, UserService.REGISTER_URL_PATH);
+            AuthenticatedResponse registerResponse = serverFacade.register(registerRequest, UserService.REGISTER_URL_PATH);
             Assertions.assertEquals(registerResponse.getUser(), fakeData.getFirstUser());
         } catch (IOException | TweeterRemoteException ex) {
             Log.e(LOG_TAG, ex.getMessage(), ex);

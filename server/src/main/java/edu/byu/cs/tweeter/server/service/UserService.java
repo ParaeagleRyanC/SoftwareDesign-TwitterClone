@@ -7,14 +7,13 @@ import edu.byu.cs.tweeter.model.net.request.LoginRequest;
 import edu.byu.cs.tweeter.model.net.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.net.response.GetUserResponse;
-import edu.byu.cs.tweeter.model.net.response.LoginResponse;
-import edu.byu.cs.tweeter.model.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public class UserService {
 
-    public LoginResponse login(LoginRequest request) {
+    public AuthenticatedResponse login(LoginRequest request) {
         if(request.getUsername() == null){
             throw new RuntimeException("[Bad Request] Missing a username");
         } else if(request.getPassword() == null) {
@@ -24,7 +23,7 @@ public class UserService {
         // TODO: Generates dummy data. Replace with a real implementation.
         User user = getDummyUser();
         AuthToken authToken = getDummyAuthToken();
-        return new LoginResponse(user, authToken);
+        return new AuthenticatedResponse(user, authToken);
     }
 
     public Response logout(LogoutRequest request) {
@@ -33,7 +32,7 @@ public class UserService {
         return new Response(true);
     }
 
-    public RegisterResponse register(RegisterRequest request) {
+    public AuthenticatedResponse register(RegisterRequest request) {
         if (request.getUsername() == null){
             throw new RuntimeException("[Bad Request] Missing a username");
         } else if (request.getPassword() == null) {
@@ -49,7 +48,7 @@ public class UserService {
         // TODO: Generates dummy data. Replace with a real implementation.
         User user = getDummyUser();
         AuthToken authToken = getDummyAuthToken();
-        return new RegisterResponse(user, authToken);
+        return new AuthenticatedResponse(user, authToken);
     }
 
     public GetUserResponse getUser(GetUserRequest request) {

@@ -4,13 +4,13 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.model.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.server.service.UserService;
 
-public class RegisterHandler implements RequestHandler<RegisterRequest, RegisterResponse> {
+public class RegisterHandler implements RequestHandler<RegisterRequest, AuthenticatedResponse> {
 
     @Override
-    public RegisterResponse handleRequest(RegisterRequest registerRequest, Context context) {
+    public AuthenticatedResponse handleRequest(RegisterRequest registerRequest, Context context) {
         UserService userService = new UserService();
         return userService.register(registerRequest);
     }

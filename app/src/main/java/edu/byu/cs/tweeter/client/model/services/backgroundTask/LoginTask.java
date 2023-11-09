@@ -7,7 +7,7 @@ import edu.byu.cs.tweeter.client.model.services.UserService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.LoginRequest;
-import edu.byu.cs.tweeter.model.net.response.LoginResponse;
+import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 /**
@@ -27,7 +27,7 @@ public class LoginTask extends AuthenticateTask {
         AuthToken authToken = null;
         try {
             LoginRequest request = new LoginRequest(username, password);
-            LoginResponse response = getServerFacade().login(request, UserService.LOGIN_URL_PATH);
+            AuthenticatedResponse response = getServerFacade().login(request, UserService.LOGIN_URL_PATH);
 
             if (response.isSuccess()) {
                 loggedInUser  = response.getUser();

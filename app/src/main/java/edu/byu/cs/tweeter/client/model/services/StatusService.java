@@ -5,6 +5,7 @@ import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetStoryTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.handler.GetPagedItemHandler;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.handler.PostStatusHandler;
+import edu.byu.cs.tweeter.client.model.services.observer.PageItemObserver;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.client.presenter.PagedPresenter;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -24,7 +25,7 @@ public class StatusService extends GeneralService {
         execute(getFeedTask);
     }
 
-    public void getStory(AuthToken authToken, User user, int pageSize, Status lastStatus, PagedPresenter.GetPageItemObserver observer) {
+    public void getStory(AuthToken authToken, User user, int pageSize, Status lastStatus, PageItemObserver observer) {
 
         GetStoryTask getStoryTask = new GetStoryTask(authToken,
                 user, pageSize, lastStatus, new GetPagedItemHandler<Status>(observer));
