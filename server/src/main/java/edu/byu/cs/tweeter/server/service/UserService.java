@@ -9,9 +9,16 @@ import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.net.response.GetUserResponse;
 import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
+import edu.byu.cs.tweeter.server.dao.DynamoUserDAO;
+import edu.byu.cs.tweeter.server.dao.IDAOFactory;
+import edu.byu.cs.tweeter.server.dao.IUserDAO;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public class UserService {
+    private IUserDAO userDAO;
+    public UserService(IDAOFactory factory) {
+        userDAO = factory.getUserDAO();
+    }
 
     public AuthenticatedResponse login(LoginRequest request) {
         if(request.getUsername() == null){
@@ -21,19 +28,18 @@ public class UserService {
         }
 
         // TODO: Generates dummy data. Replace with a real implementation.
-        User user = getDummyUser();
-        AuthToken authToken = getDummyAuthToken();
+        User user = userDAO.login(request.getUsername(), request.getPassword());
+        if (user == null) return new AuthenticatedResponse("Bad login. Try again.");
+        AuthToken authToken = getDummyAuthToken(); // fix me
         return new AuthenticatedResponse(user, authToken);
     }
 
     public Response logout(LogoutRequest request) {
-
-        // TODO: Generates dummy data. Replace with a real implementation.
         return new Response(true);
     }
 
     public AuthenticatedResponse register(RegisterRequest request) {
-        if (request.getUsername() == null){
+        if (request.getAlias() == null){
             throw new RuntimeException("[Bad Request] Missing a username");
         } else if (request.getPassword() == null) {
             throw new RuntimeException("[Bad Request] Missing a password");
@@ -46,8 +52,11 @@ public class UserService {
         }
 
         // TODO: Generates dummy data. Replace with a real implementation.
-        User user = getDummyUser();
-        AuthToken authToken = getDummyAuthToken();
+        User user = userDAO.register(request.getAlias(), request.getPassword(), request.getFirstName(), request.getLastName(), request.getImage());
+        if (user == null) {
+            return new AuthenticatedResponse("User already exists. Login instead.");
+        }
+        AuthToken authToken = getDummyAuthToken(); // fix me
         return new AuthenticatedResponse(user, authToken);
     }
 
@@ -56,8 +65,11 @@ public class UserService {
             throw new RuntimeException("[Bad Request] Missing an alias");
         }
         // TODO: Generates dummy data. Replace with a real implementation.
-        User user = getFakeData().findUserByAlias(request.getAlias());;
-        return new GetUserResponse(user);
+        //User user = getFakeData().findUserByAlias(request.getAlias());;
+        User user = userDAO.getUser(request.getAlias());
+        if (user != null)
+            return new GetUserResponse(user);
+        return new GetUserResponse(getFakeData().findUserByAlias(request.getAlias())); // remove this when done
     }
 
     /**

@@ -1,38 +1,24 @@
-package edu.byu.cs.tweeter.model.net.request;
+package edu.byu.cs.tweeter.server.dao.DynamoDbTables;
 
-public class RegisterRequest {
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
+@DynamoDbBean
+public class UserTable {
     private String alias;
     private String password;
     private String firstName;
     private String lastName;
     private String image;
 
-    /**
-     * Allows construction of the object from Json. Private so it won't be called in normal code.
-     */
-    private RegisterRequest() {}
-
-    /**
-     * Creates an instance.
-     *
-     * @param username the username of the user to be registered.
-     * @param password the password of the user to be registered.
-     */
-    public RegisterRequest(String username, String password, String firstName, String lastName, String image) {
-        this.alias = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.image = image;
-    }
-
+    @DynamoDbPartitionKey
     public String getAlias() {
         return alias;
     }
 
-    public void setAlias(String username) {
-        this.alias = username;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getPassword() {
