@@ -13,12 +13,19 @@ import edu.byu.cs.tweeter.model.net.response.GetFollowsCountResponse;
 import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
+import edu.byu.cs.tweeter.server.dao.IAuthTokenDAO;
+import edu.byu.cs.tweeter.server.dao.IDAOFactory;
 import edu.byu.cs.tweeter.util.Pair;
 
 /**
  * Contains the business logic for getting the users a user is following.
  */
 public class FollowService {
+
+    private IAuthTokenDAO authTokenDAO;
+    public FollowService(IDAOFactory factory) {
+        authTokenDAO = factory.getAuthDAO();
+    }
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -35,6 +42,7 @@ public class FollowService {
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new FollowsResponse("Token has expired.");
 
         Pair<List<User>, Boolean> pair = getFollowingDAO().getFollowees(request.getTargetAlias(), request.getLimit(), request.getLastPersonAlias());
         return new FollowsResponse(pair.getFirst(), pair.getSecond());
@@ -46,6 +54,7 @@ public class FollowService {
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new FollowsResponse("Token has expired.");
 
         Pair<List<User>, Boolean> pair = getFollowingDAO().getFollowers(request.getTargetAlias(), request.getLimit(), request.getLastPersonAlias());
         return new FollowsResponse(pair.getFirst(), pair.getSecond());

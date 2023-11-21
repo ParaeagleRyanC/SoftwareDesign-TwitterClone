@@ -10,14 +10,17 @@ import edu.byu.cs.tweeter.model.net.response.GetUserResponse;
 import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.DynamoUserDAO;
+import edu.byu.cs.tweeter.server.dao.IAuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.IDAOFactory;
 import edu.byu.cs.tweeter.server.dao.IUserDAO;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public class UserService {
     private IUserDAO userDAO;
+    private IAuthTokenDAO authTokenDAO;
     public UserService(IDAOFactory factory) {
         userDAO = factory.getUserDAO();
+        authTokenDAO = factory.getAuthDAO();
     }
 
     public AuthenticatedResponse login(LoginRequest request) {
@@ -30,17 +33,18 @@ public class UserService {
         // TODO: Generates dummy data. Replace with a real implementation.
         User user = userDAO.login(request.getUsername(), request.getPassword());
         if (user == null) return new AuthenticatedResponse("Bad login. Try again.");
-        AuthToken authToken = getDummyAuthToken(); // fix me
+        AuthToken authToken = authTokenDAO.addToken();
         return new AuthenticatedResponse(user, authToken);
     }
 
     public Response logout(LogoutRequest request) {
+        authTokenDAO.deleteToken(request.getAuthToken());
         return new Response(true);
     }
 
     public AuthenticatedResponse register(RegisterRequest request) {
         if (request.getAlias() == null){
-            throw new RuntimeException("[Bad Request] Missing a username");
+            throw new RuntimeException("[Bad Request] Missing an alias");
         } else if (request.getPassword() == null) {
             throw new RuntimeException("[Bad Request] Missing a password");
         } else if (request.getFirstName() == null) {
@@ -56,7 +60,7 @@ public class UserService {
         if (user == null) {
             return new AuthenticatedResponse("User already exists. Login instead.");
         }
-        AuthToken authToken = getDummyAuthToken(); // fix me
+        AuthToken authToken = authTokenDAO.addToken();
         return new AuthenticatedResponse(user, authToken);
     }
 
