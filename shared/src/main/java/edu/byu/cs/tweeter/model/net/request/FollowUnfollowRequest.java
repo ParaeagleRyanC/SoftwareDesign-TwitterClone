@@ -4,6 +4,8 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowUnfollowRequest {
 
+    private String currentUserAlias;
+
     private String targetAlias;
 
     /**
@@ -16,8 +18,9 @@ public class FollowUnfollowRequest {
      *
      * @param targetAlias the user to follow.
      */
-    public FollowUnfollowRequest(String targetAlias) {
+    public FollowUnfollowRequest(String targetAlias, String currentUserAlias) {
         this.targetAlias = targetAlias;
+        this.currentUserAlias = currentUserAlias;
     }
 
     public String getTargetAlias() {
@@ -26,5 +29,13 @@ public class FollowUnfollowRequest {
 
     public void setTargetAlias(String targetAlias) {
         this.targetAlias = targetAlias;
+    }
+
+    public String getCurrentUserAlias() {
+        return currentUserAlias;
+    }
+
+    public void setCurrentUserAlias(String currentUserAlias) {
+        this.currentUserAlias = currentUserAlias;
     }
 }

@@ -1,5 +1,7 @@
 package edu.byu.cs.tweeter.server.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import edu.byu.cs.tweeter.model.domain.User;
@@ -14,11 +16,6 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 public class DynamoUserDAO implements IUserDAO {
 
     private static final String TableName = "users";
-    private static final String AttrAlias = "alias";
-    private static final String AttrPassword = "password";
-    private static final String AttrFirstName = "firstName";
-    private static final String AttrLastName = "lastName";
-    private static final String AttrImage = "image";
 
     // DynamoDB client
     private static final DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
@@ -55,6 +52,8 @@ public class DynamoUserDAO implements IUserDAO {
             newUser.setFirstName(firstname);
             newUser.setLastName(lastname);
             newUser.setImage(imageUrl);
+            newUser.setFollowerCount(0);
+            newUser.setFollowingCount(0);
             table.putItem(newUser);
             return new User(firstname, lastname, alias, imageUrl);
         }
@@ -76,5 +75,63 @@ public class DynamoUserDAO implements IUserDAO {
     @Override
     public void deleteUser(User user) {
 
+    }
+
+    @Override
+    public int getFollowerCount(String alias) {
+        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        Key key = Key.builder()
+                .partitionValue(alias)
+                .build();
+        UserTable user = table.getItem(key);
+        return user.getFollowerCount();
+    }
+
+    @Override
+    public int getFollowingCount(String alias) {
+        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        Key key = Key.builder()
+                .partitionValue(alias)
+                .build();
+        UserTable user = table.getItem(key);
+        return user.getFollowingCount();
+    }
+
+    @Override
+    public void updateFollowingCount(String alias, int count) {
+        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        Key key = Key.builder()
+                .partitionValue(alias)
+                .build();
+        UserTable user = table.getItem(key);
+        user.setFollowingCount(user.getFollowingCount() + count);
+        table.updateItem(user);
+    }
+
+    @Override
+    public void updateFollowerCount(String alias, int count) {
+        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        Key key = Key.builder()
+                .partitionValue(alias)
+                .build();
+        UserTable user = table.getItem(key);
+        user.setFollowerCount(user.getFollowerCount() + count);
+        table.updateItem(user);
+    }
+
+    @Override
+    public List<User> getUsers(List<String> aliases) {
+        List<User> result = new ArrayList<>();
+        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        for (String alias : aliases) {
+            Key key = Key.builder()
+                    .partitionValue(alias)
+                    .build();
+            UserTable user = table.getItem(key);
+            if (user != null) {
+                result.add(new User(user.getFirstName(), user.getLastName(), user.getAlias(), user.getImage()));
+            }
+         }
+        return result;
     }
 }

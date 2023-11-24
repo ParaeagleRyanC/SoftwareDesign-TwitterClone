@@ -6,11 +6,12 @@ import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
 import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
+import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FollowsTable;
 
 public interface IFollowsDAO {
-    FollowsResponse getFollowing(FollowsRequest request);
-    FollowsResponse getFollower(FollowsRequest request);
-    IsFollowerResponse isFollower(IsFollowerRequest request);
-    Response follow(FollowUnfollowRequest request);
-    Response unfollow(FollowUnfollowRequest request);
+    DataPage<FollowsTable> getFollowees(String followerAlias, int pageSize, String lastFolloweeAlias);
+    DataPage<FollowsTable> getFollowers(String followeeAlias, int pageSize, String lastFollowerAlias);
+    boolean isFollower(String followerAlias, String followeeAlias);
+    void follow(String followerAlias, String followeeAlias);
+    void unfollow(String followerAlias, String followeeAlias);
 }

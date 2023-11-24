@@ -2,7 +2,6 @@ package edu.byu.cs.tweeter.server.dao.DynamoDbTables;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 @DynamoDbBean
 public class UserTable {
@@ -11,6 +10,8 @@ public class UserTable {
     private String firstName;
     private String lastName;
     private String image;
+    private int followingCount; // from current user's perspective
+    private int followerCount; // from other user's perspective
 
     @DynamoDbPartitionKey
     public String getAlias() {
@@ -51,5 +52,21 @@ public class UserTable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getFollowingCount() {
+        return followingCount;
+    }
+
+    public void setFollowingCount(int followingCount) {
+        this.followingCount = followingCount;
+    }
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
     }
 }

@@ -69,32 +69,31 @@ public class UserService {
             throw new RuntimeException("[Bad Request] Missing an alias");
         }
         // TODO: Generates dummy data. Replace with a real implementation.
-        //User user = getFakeData().findUserByAlias(request.getAlias());;
         User user = userDAO.getUser(request.getAlias());
         if (user != null)
             return new GetUserResponse(user);
         return new GetUserResponse(getFakeData().findUserByAlias(request.getAlias())); // remove this when done
     }
 
-    /**
-     * Returns the dummy user to be returned by the login operation.
-     * This is written as a separate method to allow mocking of the dummy user.
-     *
-     * @return a dummy user.
-     */
-    User getDummyUser() {
-        return getFakeData().getFirstUser();
-    }
+//    /**
+//     * Returns the dummy user to be returned by the login operation.
+//     * This is written as a separate method to allow mocking of the dummy user.
+//     *
+//     * @return a dummy user.
+//     */
+//    User getDummyUser() {
+//        return getFakeData().getFirstUser();
+//    }
 
-    /**
-     * Returns the dummy auth token to be returned by the login operation.
-     * This is written as a separate method to allow mocking of the dummy auth token.
-     *
-     * @return a dummy auth token.
-     */
-    AuthToken getDummyAuthToken() {
-        return getFakeData().getAuthToken();
-    }
+//    /**
+//     * Returns the dummy auth token to be returned by the login operation.
+//     * This is written as a separate method to allow mocking of the dummy auth token.
+//     *
+//     * @return a dummy auth token.
+//     */
+//    AuthToken getDummyAuthToken() {
+//        return getFakeData().getAuthToken();
+//    }
 
     /**
      * Returns the {@link FakeData} object used to generate dummy users and auth tokens.

@@ -14,6 +14,6 @@ public class GetFollowingCountHandler extends BackgroundTaskHandler<MainPresente
     @Override
     protected void handleSuccessMessage(MainPresenter.GetFollowCountObserver observer, Bundle data) {
         int count = data.getInt(GetFollowingCountTask.COUNT_KEY);
-        observer.getFollowCountSucceed(count, false);
+        observer.getFollowCountSucceed(count, true);
     }
 }

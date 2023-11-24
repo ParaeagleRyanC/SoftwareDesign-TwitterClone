@@ -30,6 +30,6 @@ public class S3ImageDAO implements IImageUploadDAO {
 
         s3.putObject(request);
 
-        return "https://cs340-twitter-clone-images.s3.region-name.amazonaws.com/" + alias;
+        return "https://cs340-twitter-clone-images.s3.us-west-2.amazonaws.com/" + alias;
     }
 }
