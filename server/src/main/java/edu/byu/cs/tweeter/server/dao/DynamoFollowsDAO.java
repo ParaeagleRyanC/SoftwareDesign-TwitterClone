@@ -126,9 +126,6 @@ public class DynamoFollowsDAO implements IFollowsDAO {
     @Override
     public void follow(String followerAlias, String followeeAlias) {
         DynamoDbTable<FollowsTable> table = enhancedClient.table(TableName, TableSchema.fromBean(FollowsTable.class));
-        Key key = Key.builder()
-                .partitionValue(followerAlias)
-                .build();
         FollowsTable newFollow = new FollowsTable();
         newFollow.setFollowerAlias(followerAlias);
         newFollow.setFolloweeAlias(followeeAlias);

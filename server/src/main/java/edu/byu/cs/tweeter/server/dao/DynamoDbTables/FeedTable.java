@@ -32,7 +32,6 @@ public class FeedTable {
         this.post = post;
     }
 
-    @DynamoDbSortKey
     public String getAuthorAlias() {
         return authorAlias;
     }
@@ -41,6 +40,7 @@ public class FeedTable {
         this.authorAlias = alias;
     }
 
+    @DynamoDbSortKey
     public Long getTimestamp() {
         return timestamp;
     }
