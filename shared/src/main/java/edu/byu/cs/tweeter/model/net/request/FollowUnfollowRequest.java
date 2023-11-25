@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.model.net.request;
 
-import edu.byu.cs.tweeter.model.domain.User;
-
 public class FollowUnfollowRequest {
 
     private String currentUserAlias;

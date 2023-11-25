@@ -3,11 +3,6 @@ package edu.byu.cs.tweeter.server.dao;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.net.request.GetUserRequest;
-import edu.byu.cs.tweeter.model.net.request.LoginRequest;
-import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
-import edu.byu.cs.tweeter.model.net.response.GetUserResponse;
 
 public interface IUserDAO {
     User login(String username, String password);

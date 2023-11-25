@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.model.net.response;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
 
 public class StatusesResponse extends PagedResponse {
 

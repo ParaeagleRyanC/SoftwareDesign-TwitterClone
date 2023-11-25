@@ -3,12 +3,6 @@ package edu.byu.cs.tweeter.server.dao;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.net.request.FollowUnfollowRequest;
-import edu.byu.cs.tweeter.model.net.request.FollowsRequest;
-import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
-import edu.byu.cs.tweeter.model.net.response.FollowsResponse;
-import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
-import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FollowsTable;
 import software.amazon.awssdk.core.pagination.sync.SdkIterable;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;

@@ -1,8 +1,9 @@
 package edu.byu.cs.tweeter.server.dao;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.UserTable;
@@ -33,7 +34,8 @@ public class DynamoUserDAO implements IUserDAO {
                 .build();
         UserTable user = table.getItem(key);
         if (user == null) return null;
-        if (!Objects.equals(user.getPassword(), password)) return null;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(password, user.getPassword())) return null;
         return new User(user.getFirstName(), user.getLastName(), user.getAlias(), user.getImage());
     }
 
