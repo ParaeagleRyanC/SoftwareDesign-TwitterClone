@@ -5,7 +5,6 @@ import java.util.Map;
 
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FollowsTable;
 import software.amazon.awssdk.core.pagination.sync.SdkIterable;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbIndex;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
@@ -14,24 +13,12 @@ import software.amazon.awssdk.enhanced.dynamodb.model.Page;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-public class DynamoFollowsDAO implements IFollowsDAO {
-
-    private static final String TableName = "follows";
+public class DynamoFollowsDAO extends DynamoDAO implements IFollowsDAO {
     public static final String IndexName = "follows_index";
     private static final String AttrFollowerAlias = "followerAlias";
     private static final String AttrFolloweeAlias = "followeeAlias";
-
-    // DynamoDB client
-    private static final DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
-            .region(Region.US_WEST_2)
-            .build();
-    private static final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
-            .dynamoDbClient(dynamoDbClient)
-            .build();
 
     private static boolean isNonEmptyString(String value) {
         return (value != null && value.length() > 0);
@@ -39,7 +26,7 @@ public class DynamoFollowsDAO implements IFollowsDAO {
 
     @Override
     public DataPage<FollowsTable> getFollowees(String followerAlias, int pageSize, String lastFolloweeAlias) {
-        DynamoDbTable<FollowsTable> table = enhancedClient.table(TableName, TableSchema.fromBean(FollowsTable.class));
+        DynamoDbTable<FollowsTable> table = enhancedClient.table(FollowsTableName, TableSchema.fromBean(FollowsTable.class));
         Key key = Key.builder()
                 .partitionValue(followerAlias)
                 .build();
@@ -74,7 +61,7 @@ public class DynamoFollowsDAO implements IFollowsDAO {
 
     @Override
     public DataPage<FollowsTable> getFollowers(String followeeAlias, int pageSize, String lastFollowerAlias) {
-        DynamoDbIndex<FollowsTable> index = enhancedClient.table(TableName, TableSchema.fromBean(FollowsTable.class)).index(IndexName);
+        DynamoDbIndex<FollowsTable> index = enhancedClient.table(FollowsTableName, TableSchema.fromBean(FollowsTable.class)).index(IndexName);
         Key key = Key.builder()
                 .partitionValue(followeeAlias)
                 .build();
@@ -109,7 +96,7 @@ public class DynamoFollowsDAO implements IFollowsDAO {
 
     @Override
     public boolean isFollower(String followerAlias, String followeeAlias) {
-        DynamoDbTable<FollowsTable> table = enhancedClient.table(TableName, TableSchema.fromBean(FollowsTable.class));
+        DynamoDbTable<FollowsTable> table = enhancedClient.table(FollowsTableName, TableSchema.fromBean(FollowsTable.class));
         Key key = Key.builder()
                 .partitionValue(followerAlias).sortValue(followeeAlias)
                 .build();
@@ -119,7 +106,7 @@ public class DynamoFollowsDAO implements IFollowsDAO {
 
     @Override
     public void follow(String followerAlias, String followeeAlias) {
-        DynamoDbTable<FollowsTable> table = enhancedClient.table(TableName, TableSchema.fromBean(FollowsTable.class));
+        DynamoDbTable<FollowsTable> table = enhancedClient.table(FollowsTableName, TableSchema.fromBean(FollowsTable.class));
         FollowsTable newFollow = new FollowsTable();
         newFollow.setFollowerAlias(followerAlias);
         newFollow.setFolloweeAlias(followeeAlias);
@@ -128,7 +115,7 @@ public class DynamoFollowsDAO implements IFollowsDAO {
 
     @Override
     public void unfollow(String followerAlias, String followeeAlias) {
-        DynamoDbTable<FollowsTable> table = enhancedClient.table(TableName, TableSchema.fromBean(FollowsTable.class));
+        DynamoDbTable<FollowsTable> table = enhancedClient.table(FollowsTableName, TableSchema.fromBean(FollowsTable.class));
         Key key = Key.builder()
                 .partitionValue(followerAlias).sortValue(followeeAlias)
                 .build();

@@ -11,16 +11,11 @@ import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.net.response.AuthenticatedResponse;
 import edu.byu.cs.tweeter.model.net.response.GetUserResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
-import edu.byu.cs.tweeter.server.dao.IAuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.IDAOFactory;
-import edu.byu.cs.tweeter.server.dao.IUserDAO;
 
-public class UserService {
-    private final IUserDAO userDAO;
-    private final IAuthTokenDAO authTokenDAO;
+public class UserService extends BaseService {
     public UserService(IDAOFactory factory) {
-        userDAO = factory.getUserDAO();
-        authTokenDAO = factory.getAuthDAO();
+        super(factory);
     }
 
     public AuthenticatedResponse login(LoginRequest request) {

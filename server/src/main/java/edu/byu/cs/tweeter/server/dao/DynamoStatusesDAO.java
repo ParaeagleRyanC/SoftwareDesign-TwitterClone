@@ -8,7 +8,6 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FeedTable;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.StoriesTable;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
@@ -16,22 +15,12 @@ import software.amazon.awssdk.enhanced.dynamodb.model.Page;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-public class DynamoStatusesDAO implements IStatusesDAO {
-    private static final String StoriesTableName = "stories";
-    private static final String FeedTableName = "feed";
+public class DynamoStatusesDAO extends DynamoDAO implements IStatusesDAO {
+
     private static final String AttrTimestamp = "timestamp";
     private static final String AttrUserAlias = "userAlias";
-    // DynamoDB client
-    private static final DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
-            .region(Region.US_WEST_2)
-            .build();
-    private static final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
-            .dynamoDbClient(dynamoDbClient)
-            .build();
 
     private static boolean isNonEmptyString(String value) {
         return (value != null && value.length() > 0);

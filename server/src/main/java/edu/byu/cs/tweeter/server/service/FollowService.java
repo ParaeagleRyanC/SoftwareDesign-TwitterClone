@@ -14,23 +14,14 @@ import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.DataPage;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FollowsTable;
-import edu.byu.cs.tweeter.server.dao.IAuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.IDAOFactory;
-import edu.byu.cs.tweeter.server.dao.IFollowsDAO;
-import edu.byu.cs.tweeter.server.dao.IUserDAO;
 
 /**
  * Contains the business logic for getting the users a user is following.
  */
-public class FollowService {
-
-    private IAuthTokenDAO authTokenDAO;
-    private IUserDAO userDAO;
-    private IFollowsDAO followsDAO;
+public class FollowService extends BaseService {
     public FollowService(IDAOFactory factory) {
-        authTokenDAO = factory.getAuthDAO();
-        userDAO = factory.getUserDAO();
-        followsDAO = factory.getFollowsDAO();
+        super(factory);
     }
 
     public FollowsResponse getFollowees(FollowsRequest request) {

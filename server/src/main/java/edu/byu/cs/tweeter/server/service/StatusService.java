@@ -14,18 +14,10 @@ import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FeedTable;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FollowsTable;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.StoriesTable;
 import edu.byu.cs.tweeter.server.dao.IDAOFactory;
-import edu.byu.cs.tweeter.server.dao.IFollowsDAO;
-import edu.byu.cs.tweeter.server.dao.IStatusesDAO;
-import edu.byu.cs.tweeter.server.dao.IUserDAO;
 
-public class StatusService {
-    private final IUserDAO userDAO;
-    private final IFollowsDAO followsDAO;
-    private final IStatusesDAO statusesDAO;
+public class StatusService extends BaseService {
     public StatusService(IDAOFactory factory) {
-        userDAO = factory.getUserDAO();
-        followsDAO = factory.getFollowsDAO();
-        statusesDAO = factory.getStatusDAO();
+        super(factory);
     }
 
     /**

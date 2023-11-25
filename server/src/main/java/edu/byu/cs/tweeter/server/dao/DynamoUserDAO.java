@@ -7,28 +7,15 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.UserTable;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-public class DynamoUserDAO implements IUserDAO {
-
-    private static final String TableName = "users";
-
-    // DynamoDB client
-    private static final DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
-            .region(Region.US_WEST_2)
-            .build();
-    private static final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
-            .dynamoDbClient(dynamoDbClient)
-            .build();
+public class DynamoUserDAO extends DynamoDAO implements IUserDAO {
 
     @Override
     public User login(String username, String password) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(username)
                 .build();
@@ -41,7 +28,7 @@ public class DynamoUserDAO implements IUserDAO {
 
     @Override
     public User register(String alias, String password, String firstname, String lastname, String imageString) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(alias)
                 .build();
@@ -64,7 +51,7 @@ public class DynamoUserDAO implements IUserDAO {
 
     @Override
     public User getUser(String alias) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(alias)
                 .build();
@@ -81,7 +68,7 @@ public class DynamoUserDAO implements IUserDAO {
 
     @Override
     public int getFollowerCount(String alias) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(alias)
                 .build();
@@ -91,7 +78,7 @@ public class DynamoUserDAO implements IUserDAO {
 
     @Override
     public int getFollowingCount(String alias) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(alias)
                 .build();
@@ -101,7 +88,7 @@ public class DynamoUserDAO implements IUserDAO {
 
     @Override
     public void updateFollowingCount(String alias, int count) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(alias)
                 .build();
@@ -112,7 +99,7 @@ public class DynamoUserDAO implements IUserDAO {
 
     @Override
     public void updateFollowerCount(String alias, int count) {
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         Key key = Key.builder()
                 .partitionValue(alias)
                 .build();
@@ -124,7 +111,7 @@ public class DynamoUserDAO implements IUserDAO {
     @Override
     public List<User> getUsers(List<String> aliases) {
         List<User> result = new ArrayList<>();
-        DynamoDbTable<UserTable> table = enhancedClient.table(TableName, TableSchema.fromBean(UserTable.class));
+        DynamoDbTable<UserTable> table = enhancedClient.table(UsersTableName, TableSchema.fromBean(UserTable.class));
         for (String alias : aliases) {
             Key key = Key.builder()
                     .partitionValue(alias)

@@ -4,29 +4,16 @@ import java.util.UUID;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.AuthTokenTable;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-public class DynamoAuthDAO implements IAuthTokenDAO {
-    private static final String TableName = "authTokens";
-    private static final long TimeOutMillis = 600000; // 10 minutes
-
-    // DynamoDB client
-    private static final DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
-            .region(Region.US_WEST_2)
-            .build();
-    private static final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
-            .dynamoDbClient(dynamoDbClient)
-            .build();
-
+public class DynamoAuthDAO extends DynamoDAO implements IAuthTokenDAO {
+    private static final long TokenTimeOutMillis = 600000; // 10 minutes
 
     @Override
     public AuthToken addToken() {
-        DynamoDbTable<AuthTokenTable> table = enhancedClient.table(TableName, TableSchema.fromBean(AuthTokenTable.class));
+        DynamoDbTable<AuthTokenTable> table = enhancedClient.table(AuthTokenTableName, TableSchema.fromBean(AuthTokenTable.class));
         AuthTokenTable newToken = new AuthTokenTable();
         newToken.setAuthToken(String.valueOf(UUID.randomUUID()));
         newToken.setTimestamp(System.currentTimeMillis());
@@ -36,13 +23,13 @@ public class DynamoAuthDAO implements IAuthTokenDAO {
 
     @Override
     public boolean validateToken(String token) {
-        DynamoDbTable<AuthTokenTable> table = enhancedClient.table(TableName, TableSchema.fromBean(AuthTokenTable.class));
+        DynamoDbTable<AuthTokenTable> table = enhancedClient.table(AuthTokenTableName, TableSchema.fromBean(AuthTokenTable.class));
         Key key = Key.builder()
                 .partitionValue(token)
                 .build();
         AuthTokenTable retrievedToken = table.getItem(key);
         if (retrievedToken == null) return false;
-        if (retrievedToken.getTimestamp() + TimeOutMillis < System.currentTimeMillis()) {
+        if (retrievedToken.getTimestamp() + TokenTimeOutMillis < System.currentTimeMillis()) {
             deleteToken(token);
         }
         return true;
@@ -50,7 +37,7 @@ public class DynamoAuthDAO implements IAuthTokenDAO {
 
     @Override
     public void deleteToken(String token) {
-        DynamoDbTable<AuthTokenTable> table = enhancedClient.table(TableName, TableSchema.fromBean(AuthTokenTable.class));
+        DynamoDbTable<AuthTokenTable> table = enhancedClient.table(AuthTokenTableName, TableSchema.fromBean(AuthTokenTable.class));
         Key key = Key.builder()
                 .partitionValue(token)
                 .build();
