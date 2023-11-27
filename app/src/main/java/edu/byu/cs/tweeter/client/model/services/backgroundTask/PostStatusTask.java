@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.client.model.services.backgroundTask;
 import android.os.Handler;
 import android.util.Log;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.StatusService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
@@ -30,7 +31,7 @@ public class PostStatusTask extends AuthenticatedTask {
     @Override
     protected void runTask() {
         try {
-            PostStatusRequest request = new PostStatusRequest(status);
+            PostStatusRequest request = new PostStatusRequest(status, Cache.getInstance().getCurrUserAuthToken());
             Response response = getServerFacade().postStatus(request, StatusService.POST_STATUS_URL_PATH);
 
             if (response.isSuccess()) {

@@ -1,10 +1,14 @@
 package edu.byu.cs.tweeter.model.net.request;
 
+import edu.byu.cs.tweeter.model.domain.AuthToken;
+
 public class FollowUnfollowRequest {
 
     private String currentUserAlias;
 
     private String targetAlias;
+
+    private AuthToken authToken;
 
     /**
      * Allows construction of the object from Json. Private so it won't be called in normal code.
@@ -16,9 +20,10 @@ public class FollowUnfollowRequest {
      *
      * @param targetAlias the user to follow.
      */
-    public FollowUnfollowRequest(String targetAlias, String currentUserAlias) {
+    public FollowUnfollowRequest(String targetAlias, String currentUserAlias, AuthToken authToken) {
         this.targetAlias = targetAlias;
         this.currentUserAlias = currentUserAlias;
+        this.authToken = authToken;
     }
 
     public String getTargetAlias() {
@@ -35,5 +40,13 @@ public class FollowUnfollowRequest {
 
     public void setCurrentUserAlias(String currentUserAlias) {
         this.currentUserAlias = currentUserAlias;
+    }
+
+    public AuthToken getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
     }
 }

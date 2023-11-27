@@ -29,7 +29,7 @@ public class UnfollowTask extends AuthenticatedTask {
     @Override
     protected void runTask() {
         try {
-            FollowUnfollowRequest request = new FollowUnfollowRequest(followee.getAlias(), Cache.getInstance().getCurrUser().getAlias());
+            FollowUnfollowRequest request = new FollowUnfollowRequest(followee.getAlias(), Cache.getInstance().getCurrUser().getAlias(), Cache.getInstance().getCurrUserAuthToken());
             Response response = getServerFacade().unfollow(request, FollowService.UNFOLLOW_URL_PATH);
 
             if (response.isSuccess()) {

@@ -14,6 +14,7 @@ public abstract class PagedPresenter<T> extends BasePresenter<PageView> {
     public class GetPageItemObserver implements PageItemObserver<T> {
         @Override
         public void getItemsSucceeded(List<T> items, boolean hasMorePages) {
+            if (items == null) return;
             isLoading = false;
             lastItem = (items.size() > 0 ? items.get(items.size() - 1) : null);
             setHasMorePages(hasMorePages);

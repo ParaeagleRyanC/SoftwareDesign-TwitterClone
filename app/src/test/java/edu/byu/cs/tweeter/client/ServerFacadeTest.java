@@ -62,7 +62,7 @@ public class ServerFacadeTest {
 
     @Test
     public void getFollowerCountTest() {
-        GetFollowsCountRequest getFollowsCountRequest = new GetFollowsCountRequest("targetAlias");
+        GetFollowsCountRequest getFollowsCountRequest = new GetFollowsCountRequest("targetAlias", "authToken");
 
         try {
             GetFollowsCountResponse getFollowsCountResponse = serverFacade.getFollowerCount(getFollowsCountRequest, FollowService.GET_FOLLOWER_COUNT_URL_PATH);

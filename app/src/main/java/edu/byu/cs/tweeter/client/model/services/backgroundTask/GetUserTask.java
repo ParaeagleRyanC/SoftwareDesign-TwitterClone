@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.UserService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -33,7 +34,7 @@ public class GetUserTask extends AuthenticatedTask {
     @Override
     protected void runTask() {
         try {
-            GetUserRequest request = new GetUserRequest(alias);
+            GetUserRequest request = new GetUserRequest(alias, Cache.getInstance().getCurrUserAuthToken());
             GetUserResponse response = getServerFacade().getUser(request, UserService.GET_USER_URL_PATH);
 
             if (response.isSuccess()) {

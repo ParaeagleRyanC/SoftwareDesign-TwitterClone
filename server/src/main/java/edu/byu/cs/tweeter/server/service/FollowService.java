@@ -72,6 +72,7 @@ public class FollowService extends BaseService {
         } else if (request.getCurrentUserAlias() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a current user alias");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new Response(false, "Token has expired");
         userDAO.updateFollowingCount(request.getCurrentUserAlias(), 1);
         userDAO.updateFollowerCount(request.getTargetAlias(), 1);
         followsDAO.follow(request.getCurrentUserAlias(), request.getTargetAlias());
@@ -84,6 +85,7 @@ public class FollowService extends BaseService {
         } else if (request.getCurrentUserAlias() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a current user alias");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new Response(false, "Token has expired");
         userDAO.updateFollowingCount(request.getCurrentUserAlias(), -1);
         userDAO.updateFollowerCount(request.getTargetAlias(), -1);
         followsDAO.unfollow(request.getCurrentUserAlias(), request.getTargetAlias());
@@ -94,6 +96,7 @@ public class FollowService extends BaseService {
         if (request.getTargetAlias() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a user alias");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken())) return new GetFollowsCountResponse("Token has expired");
         int count = userDAO.getFollowingCount(request.getTargetAlias());
         return new GetFollowsCountResponse(true, count);
     }
@@ -102,6 +105,7 @@ public class FollowService extends BaseService {
         if (request.getTargetAlias() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a user alias");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken())) return new GetFollowsCountResponse("Token has expired");
         int count = userDAO.getFollowerCount(request.getTargetAlias());
         return new GetFollowsCountResponse(true, count);
     }
@@ -112,6 +116,7 @@ public class FollowService extends BaseService {
         } else if (request.getFolloweeAlias() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a followee alias");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new IsFollowerResponse("Token has expired.");
         boolean isFollow = followsDAO.isFollower(request.getFollowerAlias(), request.getFolloweeAlias());
         return new IsFollowerResponse(true, isFollow);
     }

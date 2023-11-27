@@ -32,6 +32,7 @@ public class StatusService extends BaseService {
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new StatusesResponse("Token has expired");
         DataPage<FeedTable> result = statusesDAO.getFeed(request.getTargetAlias(), request.getLastStatus(), request.getLimit());
         List<Status> statuses = getStatusesFromFeedQueryResult(result.getValues());
         return new StatusesResponse(statuses, result.isHasMorePages());
@@ -43,6 +44,7 @@ public class StatusService extends BaseService {
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new StatusesResponse("Token has expired");
         DataPage<StoriesTable> result = statusesDAO.getStories(request.getTargetAlias(), request.getLastStatus(), request.getLimit());
         List<Status> statuses = getStatusesFromStoryQueryResult(result.getValues());
         return new StatusesResponse(statuses, result.isHasMorePages());
@@ -70,6 +72,7 @@ public class StatusService extends BaseService {
         if (request.getStatus() == null) {
             throw new RuntimeException("[Bad Request] Request needs to have a status");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new Response(false, "Token has expired");
         int followerCount = userDAO.getFollowerCount(request.getStatus().getUser().getAlias());
         if (followerCount > 0) {
             DataPage<FollowsTable> result = followsDAO.getFollowers(request.getStatus().getUser().getAlias(), followerCount, null);

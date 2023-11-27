@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.List;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.StatusService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
@@ -34,7 +35,7 @@ public class GetFeedTask extends PagedStatusTask {
         try {
             String targetUserAlias = targetUser == null ? null : targetUser.getAlias();
 
-            StatusesRequest request = new StatusesRequest(targetUserAlias, limit, lastItem);
+            StatusesRequest request = new StatusesRequest(targetUserAlias, limit, lastItem, Cache.getInstance().getCurrUserAuthToken());
             StatusesResponse response = getServerFacade().getStatuses(request, StatusService.GET_FEED_URL_PATH);
 
             if (response.isSuccess()) {

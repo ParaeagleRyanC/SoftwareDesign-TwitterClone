@@ -24,7 +24,6 @@ public class UserService extends BaseService {
         } else if(request.getPassword() == null) {
             throw new RuntimeException("[Bad Request] Missing a password");
         }
-
         User user = userDAO.login(request.getUsername(), request.getPassword());
         if (user == null) return new AuthenticatedResponse("Bad login. Try again.");
         AuthToken authToken = authTokenDAO.addToken();
@@ -48,7 +47,6 @@ public class UserService extends BaseService {
         } else if (request.getImage() == null) {
             throw new RuntimeException("[Bad Request] Missing an image");
         }
-
         User user = userDAO.register(request.getAlias(), encryptPassword(request.getPassword()), request.getFirstName(), request.getLastName(), request.getImage());
         if (user == null) {
             return new AuthenticatedResponse("User already exists. Login instead.");
@@ -66,6 +64,7 @@ public class UserService extends BaseService {
         if (request.getAlias() == null) {
             throw new RuntimeException("[Bad Request] Missing an alias");
         }
+        if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new GetUserResponse("Token has expired");
         User user = userDAO.getUser(request.getAlias());
         return new GetUserResponse(user);
     }

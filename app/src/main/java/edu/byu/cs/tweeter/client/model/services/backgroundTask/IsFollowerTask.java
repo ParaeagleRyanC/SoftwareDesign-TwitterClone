@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -39,7 +40,7 @@ public class IsFollowerTask extends AuthenticatedTask {
     @Override
     protected void runTask() {
         try {
-            IsFollowerRequest request = new IsFollowerRequest(follower.getAlias(), followee.getAlias());
+            IsFollowerRequest request = new IsFollowerRequest(follower.getAlias(), followee.getAlias(), Cache.getInstance().getCurrUserAuthToken());
             IsFollowerResponse response = getServerFacade().getIsFollower(request, FollowService.GET_IS_FOLLOWER_URL_PATH);
 
             if (response.isSuccess()) {
