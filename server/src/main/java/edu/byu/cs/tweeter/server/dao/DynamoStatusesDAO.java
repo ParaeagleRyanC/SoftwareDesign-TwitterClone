@@ -17,7 +17,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-public class DynamoStatusesDAO extends DynamoDAO implements IStatusesDAO {
+public class DynamoStatusesDAO extends DynamoDAO implements IStatusesDAO<StoriesTable, FeedTable> {
 
     private static final String AttrTimestamp = "timestamp";
     private static final String AttrUserAlias = "userAlias";

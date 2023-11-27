@@ -15,7 +15,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-public class DynamoFollowsDAO extends DynamoDAO implements IFollowsDAO {
+public class DynamoFollowsDAO extends DynamoDAO implements IFollowsDAO<FollowsTable> {
     public static final String IndexName = "follows_index";
     private static final String AttrFollowerAlias = "followerAlias";
     private static final String AttrFolloweeAlias = "followeeAlias";
