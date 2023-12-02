@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.server.dao;
 
-import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FollowsTable;
-
 public interface IFollowsDAO<T> {
     DataPage<T> getFollowees(String followerAlias, int pageSize, String lastFolloweeAlias);
     DataPage<T> getFollowers(String followeeAlias, int pageSize, String lastFollowerAlias);
