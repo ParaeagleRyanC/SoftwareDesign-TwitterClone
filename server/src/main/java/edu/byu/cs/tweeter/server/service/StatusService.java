@@ -73,13 +73,7 @@ public class StatusService extends BaseService {
             throw new RuntimeException("[Bad Request] Request needs to have a status");
         }
         if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new Response(false, "Token has expired");
-        int followerCount = userDAO.getFollowerCount(request.getStatus().getUser().getAlias());
-        if (followerCount > 0) {
-            DataPage<FollowsTable> result = followsDAO.getFollowers(request.getStatus().getUser().getAlias(), followerCount, null);
-            List<String> followerAliases = FollowService.getFollowerAliases(result);
-            statusesDAO.postStatus(request.getStatus(), followerAliases);
-        }
-        else statusesDAO.postStatus(request.getStatus(), null);
+        statusesDAO.postStatus(request.getStatus());
         return new Response(true);
     }
 }

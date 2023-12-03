@@ -55,7 +55,7 @@ public class StatusDialogFragment extends AppCompatDialogFragment {
                 });
 
         fullName = view.findViewById(R.id.dialogFullName);
-        fullName.setText(Cache.getInstance().getCurrUser().getName());
+        fullName.setText(Cache.getInstance().getCurrUser().retrieveFullName());
         fullName.setTextSize(17);
         alias = view.findViewById(R.id.dialogAlias);
         alias.setText(Cache.getInstance().getCurrUser().getAlias());

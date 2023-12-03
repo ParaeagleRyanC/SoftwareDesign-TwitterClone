@@ -109,10 +109,10 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void followUnfollow(AuthToken authToken, User selectedUser, boolean following) {
         if (following) {
-            view.showInfoMessage("Removing " + selectedUser.getName() + "...");
+            view.showInfoMessage("Removing " + selectedUser.retrieveFullName() + "...");
         }
         else {
-            view.showInfoMessage("Adding " + selectedUser.getName() + "...");
+            view.showInfoMessage("Adding " + selectedUser.retrieveFullName() + "...");
         }
         var followService = new FollowService();
         followService.followUnfollow(authToken, selectedUser, new FollowUnfollowObserver(view), following);

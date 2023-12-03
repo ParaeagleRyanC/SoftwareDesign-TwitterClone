@@ -181,7 +181,7 @@ public class FeedFragment extends Fragment implements PageView {
         void bindStatus(Status status) {
             Picasso.get().load(status.getUser().getImageUrl()).into(userImage);
             userAlias.setText(status.getUser().getAlias());
-            userName.setText(status.getUser().getName());
+            userName.setText(status.getUser().retrieveFullName());
             datetime.setText(Timestamp.getFormattedDate(status.getTimestamp()));
 
             // @mentions and urls clickable

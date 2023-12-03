@@ -167,7 +167,7 @@ public class FollowingFragment extends Fragment implements PageView {
          */
         void bindUser(User user) {
             userAlias.setText(user.getAlias());
-            userName.setText(user.getName());
+            userName.setText(user.retrieveFullName());
             Picasso.get().load(user.getImageUrl()).into(userImage);
         }
     }

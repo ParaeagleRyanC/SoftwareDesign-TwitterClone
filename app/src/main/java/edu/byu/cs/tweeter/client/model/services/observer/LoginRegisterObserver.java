@@ -12,7 +12,7 @@ public abstract class LoginRegisterObserver implements ServiceObserver {
     public void loginRegisterSucceeded(User user) {
         view.hideErrorMessage();
         view.hideInfoMessage();
-        view.showInfoMessage("Hello " + user.getName());
+        view.showInfoMessage("Hello " + user.retrieveFullName());
         view.openMainView(user);
     }
 

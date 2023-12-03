@@ -101,7 +101,7 @@ public class DynamoStatusesDAO extends DynamoDAO implements IStatusesDAO<Stories
     }
 
     @Override
-    public void postStatus(Status status, List<String> followerAliases) {
+    public void postStatus(Status status) {
         DynamoDbTable<StoriesTable> storiesTable = enhancedClient.table(StoriesTableName, TableSchema.fromBean(StoriesTable.class));
         StoriesTable newStoryEntry = new StoriesTable();
         newStoryEntry.setPost(status.getPost());
@@ -110,20 +110,6 @@ public class DynamoStatusesDAO extends DynamoDAO implements IStatusesDAO<Stories
         newStoryEntry.setUrls(status.getUrls());
         newStoryEntry.setMentions(status.getMentions());
         storiesTable.putItem(newStoryEntry);
-
-        if (followerAliases != null) {
-            DynamoDbTable<FeedTable> feedTable = enhancedClient.table(FeedTableName, TableSchema.fromBean(FeedTable.class));
-            FeedTable newFeedEntry = new FeedTable();
-            newFeedEntry.setPost(status.getPost());
-            newFeedEntry.setTimestamp(status.getTimestamp());
-            newFeedEntry.setAuthorAlias(status.getUser().getAlias());
-            newFeedEntry.setUrls(status.getUrls());
-            newFeedEntry.setMentions(status.getMentions());
-            for (String alias: followerAliases) {
-                newFeedEntry.setBelongToAlias(alias);
-                feedTable.putItem(newFeedEntry);
-            }
-        }
     }
 
     @Override

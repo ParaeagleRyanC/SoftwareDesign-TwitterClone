@@ -10,6 +10,6 @@ import edu.byu.cs.tweeter.server.dao.DynamoDbTables.StoriesTable;
 public interface IStatusesDAO<T, K> {
     DataPage<T> getStories(String userAlias, Status lastStatus, int limit);
     DataPage<K> getFeed(String userAlias, Status lastStatus, int limit);
-    void postStatus(Status status, List<String> followerAliases);
+    void postStatus(Status status);
     void deleteStatus(User user, long timestamp);
 }

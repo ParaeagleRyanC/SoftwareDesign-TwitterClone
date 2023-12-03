@@ -45,7 +45,7 @@ public class User implements Comparable<User>, Serializable {
         this.lastName = lastName;
     }
 
-    public String getName() {
+    public String retrieveFullName() {
         return String.format("%s %s", firstName, lastName);
     }
 

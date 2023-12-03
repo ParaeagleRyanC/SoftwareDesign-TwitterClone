@@ -15,11 +15,11 @@ public class DatabaseFiller {
 
     // How many follower users to add
     // We recommend you test this with a smaller number first, to make sure it works for you
-    private final static int NUM_USERS = 10000;
+    private final static int NUM_USERS = 26;
 
     // The alias of the user to be followed by each user created
     // This example code does not add the target user, that user must be added separately.
-    private final static String FOLLOW_TARGET = "@ac";
+    private final static String FOLLOW_TARGET = "@sc";
 
 
     private static void filler() {
@@ -33,10 +33,10 @@ public class DatabaseFiller {
         // Iterate over the number of users you will create
         for (int i = 1; i <= NUM_USERS; i++) {
 
-            String firstName = "Yasmine";
-            String lastName = i + " Lovie";
-            String alias = "@yl" + i;
-            String password = encoder.encode("yl");
+            String firstName = "Molly";
+            String lastName = i + " Smelly";
+            String alias = "@ms" + i;
+            String password = encoder.encode("ms");
             String imageUrl = "https://cs340-twitter-clone-images.s3.us-west-2.amazonaws.com/download.jpg";
 
             UserTable user = new UserTable();

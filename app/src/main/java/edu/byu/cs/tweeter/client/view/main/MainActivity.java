@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
         presenter.getFollowCount(Cache.getInstance().getCurrUserAuthToken(), selectedUser);
 
         TextView userName = findViewById(R.id.userName);
-        userName.setText(selectedUser.getName());
+        userName.setText(selectedUser.retrieveFullName());
 
         TextView userAlias = findViewById(R.id.userAlias);
         userAlias.setText(selectedUser.getAlias());

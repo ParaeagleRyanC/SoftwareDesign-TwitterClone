@@ -170,7 +170,7 @@ public class FollowersFragment extends Fragment implements PageView {
             if (user == null)
                 Log.e(LOG_TAG, "user is null!");
             userAlias.setText(user.getAlias());
-            userName.setText(user.getName());
+            userName.setText(user.retrieveFullName());
 
             Picasso.get().load(user.getImageUrl()).into(userImage);
 
