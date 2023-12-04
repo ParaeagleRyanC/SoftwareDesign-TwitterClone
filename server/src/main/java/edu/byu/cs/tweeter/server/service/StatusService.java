@@ -82,6 +82,7 @@ public class StatusService extends BaseService {
         }
         if (!authTokenDAO.validateToken(request.getAuthToken().getToken())) return new Response(false, "Token has expired");
         statusesDAO.postStatus(request.getStatus());
+
         // send queue message here
         final String getFollowersQueueUrl = "https://sqs.us-west-2.amazonaws.com/144669027494/get_followers_queue";
         ObjectMapper mapper = new ObjectMapper();

@@ -40,10 +40,6 @@ public class UpdateFeedQueueProcessor implements RequestHandler<SQSEvent, Void> 
                 feedEntry.setBelongToAlias(alias);
                 feedEntries.add(feedEntry);
             }
-            // lines below should be a call to status service to invoke this method in the service
-            // DAO should not be accessed here
-//            DynamoDAO dynamoDAO = new DynamoDAO();
-//            dynamoDAO.addItemsBatch(feedEntries, FeedTableName, FeedTable.class);
             StatusService statusService = new StatusService(new DynamoDbDAOFactory());
             statusService.addFeedInBatch(feedEntries);
         }
