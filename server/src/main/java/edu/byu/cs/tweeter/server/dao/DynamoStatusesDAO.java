@@ -42,7 +42,7 @@ public class DynamoStatusesDAO extends DynamoDAO implements IStatusesDAO<Stories
                 // Build up the Exclusive Start Key (telling DynamoDB where you left off reading items)
                 Map<String, AttributeValue> startKey = new HashMap<>();
                 startKey.put(AttrUserAlias, AttributeValue.builder().s(userAlias).build());
-                startKey.put(AttrTimestamp, AttributeValue.builder().s(lastStatus.getTimestamp().toString()).build());
+                startKey.put(AttrTimestamp, AttributeValue.builder().n(lastStatus.getTimestamp().toString()).build());
 
                 requestBuilder.exclusiveStartKey(startKey);
             }
