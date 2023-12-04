@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.server.dao.DynamoDAO;
+import edu.byu.cs.tweeter.server.dao.DynamoDbDAOFactory;
 import edu.byu.cs.tweeter.server.dao.DynamoDbTables.FeedTable;
 import edu.byu.cs.tweeter.server.lambda.util.UpdateFeed;
+import edu.byu.cs.tweeter.server.service.StatusService;
 
 public class UpdateFeedQueueProcessor implements RequestHandler<SQSEvent, Void> {
-    private final String FeedTableName = "feed";
+//    private final String FeedTableName = "feed";
     @Override
     public Void handleRequest(SQSEvent event, Context context) {
         UpdateFeed updateFeed;
         ObjectMapper mapper = new ObjectMapper();
-        DynamoDAO dynamoDAO = new DynamoDAO();
         for (SQSEvent.SQSMessage msg : event.getRecords()) {
             System.out.println(msg.getBody());
             try {
@@ -39,8 +40,12 @@ public class UpdateFeedQueueProcessor implements RequestHandler<SQSEvent, Void> 
                 feedEntry.setBelongToAlias(alias);
                 feedEntries.add(feedEntry);
             }
-
-            dynamoDAO.addItemsBatch(feedEntries, FeedTableName, FeedTable.class);
+            // lines below should be a call to status service to invoke this method in the service
+            // DAO should not be accessed here
+//            DynamoDAO dynamoDAO = new DynamoDAO();
+//            dynamoDAO.addItemsBatch(feedEntries, FeedTableName, FeedTable.class);
+            StatusService statusService = new StatusService(new DynamoDbDAOFactory());
+            statusService.addFeedInBatch(feedEntries);
         }
         return null;
     }
