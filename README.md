@@ -12,4 +12,6 @@ This application demonstrates the knowledge of various design patterns and princ
 * Generic Methods
 * Facade Pattern
 * Strategy Pattern
+* Factory Method
 * Mockito Testing Framwork
+* JUnit Testing Framework
